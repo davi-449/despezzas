@@ -1,0 +1,458 @@
+{%extends 'base/base.html'%}
+
+{%block title%}Página inicial{%endblock%}
+{%block content%}
+<section class="content">
+  <div class="container-fluid lista">
+  
+ 
+    
+    {% include 'base/msg_sucesso.html' %}
+    {% include 'base/msg_error.html' %}
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 lista-content">
+      <div class="card">
+        
+        <div class="header" style="text-align: center;">
+          <h2 style="font-weight: bold; font-size: 48px; color: #1e2b37; font-family: 'Arial Black', Gadget, sans-serif;">
+            PÁGINA INICIAL
+          </h2>
+          <div class="welcome-message" style="text-align: center; margin-top: 10px;">
+            <h3>Bem Vindo, {{request.user.username}}!</h3>
+          </div>
+          <div class="block-header">
+            
+            <small>Informações do sistema para o dia {{data_atual}}, <b>atualize esta página diariamente.</b></small>
+          </div>
+        </div>
+
+
+        <div class="body">
+        <head>
+            
+            <style>
+                h2 {
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 32px;
+                    text-align: center;
+                }
+                body {
+                    font-family: Arial, sans-serif;
+                    text-align: justify;
+                    background-color: #fff;
+                }
+                h1 {
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 36px;
+                    font-weight: bold;
+                    margin-bottom: 20px;
+                    text-align: center;
+                }
+                .container {
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
+                    margin-bottom: 20px;
+                }
+                .box {
+                    width: calc(100% - 20px);
+                    height: 100px;
+                    border-radius: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    color: white;
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin: 10px;
+                }
+                .box .icon {
+                    font-size: 30px;
+                    margin-bottom: 10px;
+                }
+                .box {
+                    background-image: linear-gradient(to bottom right, #1e2b37, transparent);
+                }
+                .box.green { background-color: #526a81; }
+                .box.blue { background-color: #526a81; }
+                .box.yellow { background-color: #526a81; }
+                .box.red { background-color: #526a81; }
+                .box.orange { background-color: #526a81; }
+                .box span {
+                    font-size: 14px;
+                }
+                .section {
+                    display: flex;
+                    justify-content: center;
+                    gap: 20px;
+                    text-align: justify;
+                    width: 100%;
+                }
+                .section .panel {
+                    width: 100%;
+                    background-color: #2c3e50;
+                    border-radius: 10px;
+                    padding: 10px;
+                    color: white;
+                }
+                .section .panel h2 {
+                    background-color: #1e2b37;
+                    border-radius: 10px 10px 0 0;
+                    margin: -10px -10px 10px -10px;
+                    padding: 15px;
+                    font-size: 18px;
+                }
+                .section .panel h2.green { background-color: #2c3e50; }
+                .section .panel h2.yellow { background-color: #2c3e50; color: black; }
+                .section .panel h2.red { background-color: #2c3e50; }
+                .section .panel ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    text-align: left;
+                    width: 100%;
+                }
+                .section .panel ul li {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 5px 0;
+                }
+            </style>
+        </head>
+      </div>
+       <html>
+        <head>    
+            <div class="section">
+                <div class="panel">
+                    <h2 style="color:rgb(77, 203, 77); font-weight:bold;">CADASTRO</h2>
+                    <ul>
+                        <style>
+                            .table-hover>tbody>tr:hover {
+                              background-color: #333;
+                              text-decoration: none;
+                              font-weight: bold;
+                              color: white;
+                            }
+                          </style>
+                         <table class="table table-hover">
+                            <tbody>
+                             {% if perms.cadastro.view_cliente %}
+                             <tr>
+                               <td> 
+                                 <a href="{% url 'cadastro:listaclientesview' %}">
+                                  <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                    
+                                     <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(77, 203, 77);">person</i>
+                                     <b>{{quantidade_cadastro.clientes}}</b> Clientes cadastrados
+                                   </div>
+                                 </a>              
+                               </td>
+                             </tr> 
+                             {% endif %}
+                             {% if perms.cadastro.view_fornecedor %}
+                             <tr>
+                               <td> 
+                                 <a href="{% url 'cadastro:listafornecedoresview' %}">
+                                    <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                    
+                                     <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(77, 203, 77);">store</i> <b>{{quantidade_cadastro.fornecedores}}</b> Fornecedores cadastrados
+                                   </div>
+                                 </a>              
+                               </td>
+                             </tr> 
+                             {% endif %}
+                             {% if perms.cadastro.view_produto %}
+                             <tr>
+                               <td> 
+                                 <a href="{% url 'cadastro:listaprodutosview' %}">
+                                    <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                    
+                                     <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(77, 203, 77);">shopping_cart</i> <b>{{quantidade_cadastro.vendas}}</b> Produtos Cadastrados
+                                   </div>
+                                 </a>              
+                               </td>
+                             </tr> 
+                             {% endif %}
+                             {% if perms.cadastro.view_empresa %}
+                             <tr>
+                               <td> 
+                                 <a href="{% url 'cadastro:listaempresasview' %}">
+                                    <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                    
+                                     <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(77, 203, 77);">business</i> <b>{{quantidade_cadastro.empresas}}</b> Empresas cadastradas
+                                   </div>
+                                 </a>              
+                               </td>
+                             </tr> 
+                             {% endif %}
+                             {% if perms.cadastro.view_transportadora %}
+                             <tr>
+                               <td> 
+                                 <a href="{% url 'cadastro:listatransportadorasview' %}">
+                                    <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                    
+                                     <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(77, 203, 77);">directions_bus</i> <b>{{quantidade_cadastro.transportadoras}}</b> Transportadoras cadastradas
+                                   </div>
+                                 </a>              
+                               </td>
+                             </tr> 
+                             {% endif %}
+                           </tbody>
+                         </table>
+                    </ul>
+                </div>
+                <div class="panel">
+                    <h2 style="color:#F7DC6F; font-weight:bold;">AGENDA HOJE</h2>
+                    <ul>
+                        <style>
+                          .table-hover>tbody>tr:hover {
+                            background-color: #333;
+                            text-decoration: none;
+                          }
+                          .hoje {
+                            background-color: #63632f;
+                          }
+                        </style>
+                        <table class="table table-hover">
+                            <tbody>
+                              {% if perms.cadastro.view_transportadora %}
+                              <tr {% if agenda_hoje.orcamento_venda_hoje > 0 %}class="hoje"{% endif %}>
+                                <td> 
+                                  <a href="{% url 'vendas:listaorcamentovendahojeview' %}">
+                                    <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                      <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:#F7DC6F;">receipt</i> <b>{{agenda_hoje.orcamento_venda_hoje}}</b> Orçamentos de venda a vencer hoje 
+                                    </div>
+                                  </a>              
+                                </td>
+                              </tr> 
+                              {% endif %}
+                              {% if perms.compras.view_orcamentocompra %}
+                              <tr {% if agenda_hoje.orcamento_compra_hoje > 0 %}class="hoje"{% endif %}>
+                                <td> 
+                                  <a href="{% url 'compras:listaorcamentocomprahojeview' %}">
+                                    <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                      <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:#F7DC6F;">receipt</i> <b>{{agenda_hoje.orcamento_compra_hoje}}</b> Orçamentos de compra 
+                                    </div>
+                                  </a>              
+                                </td>
+                              </tr> 
+                              {% endif %}
+                              {% if perms.vendas.view_pedidovenda %}
+                              <tr {% if agenda_hoje.pedido_venda_hoje > 0 %}class="hoje"{% endif %}>
+                                <td> 
+                                  <a href="{% url 'vendas:listapedidovendahojeview' %}">
+                                    <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                      <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:#F7DC6F;">local_shipping</i> <b>{{agenda_hoje.pedido_venda_hoje}}</b> Pedidos de venda com entrega hoje 
+                                    </div>
+                                  </a>              
+                                </td>
+                              </tr> 
+                              {% endif %}
+                              {% if perms.compras.view_pedidocompra %}
+                              <tr {% if agenda_hoje.pedido_compra_hoje > 0 %}class="hoje"{% endif %}>
+                                <td> 
+                                  <a href="{% url 'compras:listapedidocomprahojeview' %}">
+                                    <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                      <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:#F7DC6F;">local_shipping</i> <b>{{agenda_hoje.pedido_compra_hoje}}</b> Pedidos de compra com entrega hoje 
+                                    </div>
+                                  </a>              
+                                </td>
+                              </tr> 
+                              {% endif %}
+                              {% if perms.financeiro.view_lancamento %}
+                              <tr {% if agenda_hoje.contas_receber_hoje > 0 %}class="hoje"{% endif %}>
+                                <td> 
+                                  <a href="{% url 'financeiro:listacontareceberhojeview' %}">
+                                    <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                      <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:#F7DC6F;">attach_money</i> <b>{{agenda_hoje.contas_receber_hoje}}</b> Contas a receber
+                                    </div>
+                                  </a>              
+                                </td>
+                              </tr> 
+                              <tr {% if agenda_hoje.contas_pagar_hoje > 0 %}class="hoje"{% endif %}>
+                                <td> 
+                                  <a href="{% url 'financeiro:listacontapagarhojeview' %}">
+                                    <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                      <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:#F7DC6F;">money_off</i> <b>{{agenda_hoje.contas_pagar_hoje}}</b> Contas a pagar
+                                    </div>
+                                  </a>              
+                                </td>
+                              </tr> 
+                                  </a>              
+                                </td>
+                              </tr>
+                              {% endif %}
+                            </tbody>
+                          </table>
+                    </ul>
+                </div>
+                <div class="panel">
+                    <h2 style="color:rgb(245, 123, 123); font-weight:bold;">ALERTAS</h2>
+                    <ul>
+                        <style>
+                            .table-hover>tbody>tr:hover {
+                              background-color: #333;
+                              text-decoration: none;
+                              font-weight: bold;
+                              color: white;
+                            }
+                            .alerta {
+                              background-color: rgb(73, 23, 23);
+                            }
+                          </style>
+                         <table class="table table-hover">
+                            <tbody>
+                                {% if perms.cadastro.view_transportadora %}
+                                <tr {% if alertas.produtos_baixo_estoque > 0 %}class="alerta"{% endif %}>
+                                  <td> 
+                                    <a href="{% url 'cadastro:listaprodutosbaixoestoqueview' %}">
+                                        <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(245, 123, 123);">local_grocery_store</i>
+                                            <b>{{alertas.produtos_baixo_estoque}}</b> Produtos com baixo estoque
+                                        </div>
+                                    </a>              
+                                  </td>
+                                </tr> 
+                                {% endif %}
+                                {% if perms.vendas.view_orcamentovenda %}
+                                <tr {% if alertas.orcamentos_venda_vencidos > 0 %}class="alerta"{% endif %}>
+                                  <td> 
+                                    <a href="{% url 'vendas:listaorcamentovendavencidoview' %}">
+                                        <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(245, 123, 123);">receipt</i>
+                                            <b>{{alertas.orcamentos_venda_vencidos}}</b> Orçamentos de venda vencidos
+                                        </div>
+                                    </a>              
+                                  </td>
+                                </tr> 
+                                {% endif %}
+                                {% if perms.compras.view_orcamentocompra %}
+                                <tr {% if alertas.orcamentos_compra_vencidos > 0 %}class="alerta"{% endif %}>
+                                  <td> 
+                                    <a href="{% url 'compras:listaorcamentocompravencidosview' %}">
+                                        <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(245, 123, 123);">receipt</i>
+                                            <b>{{alertas.orcamentos_compra_vencidos}}</b> Orçamentos de compra vencidos
+                                        </div>
+                                    </a>              
+                                  </td>
+                                </tr>
+                                {% endif %}
+                                {% if perms.vendas.view_pedidovenda %}
+                                <tr {% if alertas.pedidos_venda_atrasados > 0 %}class="alerta"{% endif %}>
+                                  <td> 
+                                    <a href="{% url 'vendas:listapedidovendaatrasadosview' %}">
+                                        <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(245, 123, 123);">assignment_late</i>
+                                            <b>{{alertas.pedidos_venda_atrasados}}</b> Pedidos de venda atrasados
+                                        </div>
+                                    </a>              
+                                  </td>
+                                </tr> 
+                                {% endif %}
+                                {% if perms.compras.view_pedidocompra %}
+                                <tr {% if alertas.pedidos_compra_atrasados > 0 %}class="alerta"{% endif %}>
+                                  <td> 
+                                    <a href="{% url 'compras:listapedidocompraatrasadosview' %}">
+                                        <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(245, 123, 123);">assignment_late</i>
+                                            <b>{{alertas.pedidos_compra_atrasados}}</b> Pedidos de compra atrasados
+                                        </div>
+                                    </a>              
+                                  </td>
+                                </tr> 
+                                {% endif %}
+                                {% if perms.financeiro.view_lancamento %}
+                                <tr {% if alertas.contas_receber_atrasadas > 0 %}class="alerta"{% endif %}>
+                                  <td> 
+                                    <a href="{% url 'financeiro:listacontareceberatrasadasview' %}">
+                                        <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(245, 123, 123);">attach_money</i>
+                                            <b>{{alertas.contas_receber_atrasadas}}</b> Contas a receber atrasadas
+                                        </div>
+                                    </a>              
+                                  </td>
+                                </tr> 
+                                <tr {% if alertas.contas_pagar_atrasadas > 0 %}class="alerta"{% endif %}>
+                                  <td> 
+                                    <a href="{% url 'financeiro:listacontapagaratrasadasview' %}">
+                                        <div style="height:100%;width:100%; color:rgb(255, 255, 255);">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; color:rgb(245, 123, 123);">money_off</i>
+                                            <b>{{alertas.contas_pagar_atrasadas}}</b> Contas a pagar atrasadas
+                                        </div>
+                                    </a>              
+                                  </td>
+                                </tr> 
+                                {% endif %}
+                              </tbody>
+                         </table>
+                    </ul>
+                </div>
+            </div>
+        </body>
+        </html>
+      
+        <hr>
+        <body>
+          <div style="display: flex; align-items: center; justify-content: center;">
+              <i class="fas fa-coins" style="font-size: 40px; color: #1e2b37; margin-right: 10px;"></i>
+              <h1 style="font-size: 48px; color: #1e2b37;">FLUXO DE CAIXA</h1>
+          </div>
+          <div class="container">
+              
+              <div class="box green">
+                  <span style="color:rgb(63, 228, 63); display:inline-block; margin-right:5px;">
+                  {% if movimento_dia.valor_lucro_prejuizo > 0 %}
+                      &#x25B2;
+                  {% elif movimento_dia.valor_lucro_prejuizo == 0 %}
+                  {% else %}
+                      &#x25BE;
+                  {% endif %}
+                  </span> <span style="color:rgb(124, 245, 124); text-decoration: none;">LUCRO LÍQUIDO</span>
+                  
+                  {% if movimento_dia %}
+                  <div> <td {% if movimento_dia.valor_lucro_prejuizo < 0 %}style="background-color:#f1b1b1;font-weight:bold;"{% else %}style="background-color:#b3e5b3;font-weight:bold;"{% endif %}>R$ {{movimento_dia.valor_lucro_prejuizo|floatformat:2}}</td></div>
+                  {% else %}
+                  <div>R$ 0,00</div>
+                  {% endif %}
+              </div>
+              <div class="box blue">
+                  <span style="color:#74bdf8; text-decoration: none;">ENTRADA</span>
+                  {% if movimento_dia %}
+                  <div>R$ {{movimento_dia.entradas|floatformat:2}}</div>
+                  {% else %}
+                  <div>R$ 0,00</div>
+                  {% endif %}
+              </div>
+              <div class="box yellow">
+                  <span style="color:#f8df79; text-decoration: none;">RECEITA ACUMULADA</span>
+                  {% if movimento_dia %}
+                  <div>R$ {{movimento_dia.saldo_final|floatformat:2}}</div>
+                  {% else %}
+                  <div>R$ 0,00</div>
+                  {% endif %}
+              </div>
+              <div class="box red">
+                  <span style="color:rgb(250, 115, 115); display:inline-block; margin-right:5px;">&#x25BC;</span> <span style="color:rgb(250, 115, 115); text-decoration: none;">SAÍDA</span>
+                  {% if movimento_dia %}
+                  <div>R$ {{movimento_dia.saidas|floatformat:2}}</div>
+                  {% else %}
+                  <div>R$ 0,00</div>
+                  {% endif %}
+              </div>
+              <div class="box orange">
+                  <span style="color:#fcc879; text-decoration: none;">SALDO INICIAL</span>
+                  {% if movimento_dia and movimento_dia.saldo_final > 0 %}
+                  <div>{{movimento_dia.saldo_final}}</div>
+                  {% else %}
+                  <div>R$ 0,00</div>
+                  {% endif %}
+              </div>
+          
+          </div>
+        </body>
+
+{%endblock%}<!-- Container principal -->
+
+

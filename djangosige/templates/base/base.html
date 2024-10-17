@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<style>
+   
+</style>
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Css -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Css -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <!-- Jquery 3.0.0 Js -->
+    <script src="{% static 'js/jquery/jquery-3.0.0.min.js' %}"></script>
+
+
+    <title>DesPezzas | {%block title%}Bem-vindo{%endblock%}</title>
+</head>
+
+<body class="{%block body_class%}theme{%endblock%}">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="md-preloader">
+                <svg viewbox="0 0 75 75">
+                    <circle cx="37.5" cy="37.5" r="33.5" style="stroke: #1e2b37;" stroke-width="4" />
+                </svg>
+            </div>
+            <p class="loader-message">Carregando...</p>
+        </div>
+    </div>
+    <!-- #Page Loader -->
+
+    <!-- Overlay -->
+    <div class="overlay"></div>    <!--  #Overlay -->
+
+    {%block side_top_bars%}
+
+    <!-- Top Bar -->
+
+    <nav class="navbar topbar" style="background-color: #1e2b37;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+
+                <a href="javascript:void(0);" class="bars"></a>
+                <div class="navbar-brand">
+                	<!-- Main icone, data e horario -->
+                    <span style="font-size: 25px;"><a href="{% url 'base:index' %}"><span style="color: white; font-size: 25px;">Des</span><b style="color: #F44336; font-size: 25px;">Pezzas</b></a></span>
+                    <!--<span style="padding-left:30px;">Bem-vindo(a), <strong class="username-strong"></strong></span>-->
+                    <span style="padding-left:25px;"><i class="material-icons" style="color: white;">&#xE8DF;</i></span>
+                    <span style="color: white;">{%now "l, j/m/Y"%}</span>
+                    <span style="padding-left:10px;"><i class="material-icons" style="color: white;">&#xE8B5;</i></span>
+                    <span style="color: white;">{% now "H:i" %}</span>
+                    <!-- #Main icone, data e horario -->
+                </div>
+
+            </div>
+
+            <!-- Icones ajuda e logout -->
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li><a href="" target="_blank" title="Ajuda" ><i class="material-icons">&#xE8FD;</i></a></li>
+                    <li><a id="logout-btn" href="{% url 'login:logoutview' %}" title="Sair" ><i class="material-icons">&#xE879;</i></a></li>
+
+                </ul>
+            </div>
+            <!-- #Icones ajuda e logout -->
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+
+    <section>
+        <!-- Barra lateral -->
+        <aside id="barralateral" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info" style="background-color: #2c3e50;">
+                <div class="image">
+                    {% if user_foto_sidebar %}
+                    <a href="{% url 'login:perfilview' %}"><img src="/media/{{user_foto_sidebar}}" width="48" height="48" alt="User" /></a>
+                    {%else%}
+                    <a href="{% url 'login:perfilview' %}"><img src="/media/imagens/user.png" width="48" height="48" alt="User" /></a>
+                    {%endif%}
+                </div>
+                <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.user.username}} {% if request.user.is_superuser %}(Admin){%endif%}</div>
+                    {% if user_empresa %}<div class="email">{{user_empresa}}</div>{% endif %}
+                    <div class="email">{{request.user.email}}</div>
+
+                    <div class="user-helper-dropdown">
+                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">&#xE313;</i>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="{% url 'login:perfilview' %}"><i class="material-icons">&#xE55A;</i><span>Perfil</span></a></li>
+                            <li role="seperator" class="divider"></li>
+                            <li><a {% if user_empresa %} href="{% url 'cadastro:editarempresaview' user_empresa.id %}"{%else%} class="popup" title="Selecionar Empresa" href="{% url 'login:selecionarempresaview' %}" {%endif%}><i class="material-icons">&#xE0AF;</i><span>Minha Empresa</span></a></li>
+                            <li role="seperator" class="divider"></li>
+                            <li><a href="{% url 'login:usuariosview' %}"><i class="material-icons">&#xE7FB;</i><span>Usuários</span></a></li>
+                            <li role="seperator" class="divider"></li>
+                            <li><a id="logout-btn" href="{% url 'login:logoutview' %}" title="Sair" ><i class="material-icons">&#xE879;</i><span style="color: #000000;">Sair</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- #User Info -->
+
+            <!-- Menu -->
+             
+        
+            <div class="menu">
+                <ul class="list">
+                    <li>
+                        <a href="{% url 'base:index' %}">
+                            <i class="material-icons">&#xE88A;</i>
+                            <span>Página Inicial</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">&#xE227;</i>
+                            <span>Financeiro</span>
+                        </a>
+                        <ul class="ml-menu animated fadeIn">
+                            <li>
+                                <a href="{% url 'financeiro:planocontasview' %}">
+                                    <i class="material-icons" style="vertical-align: middle; margin-right: 2px; font-size: 15px;">account_balance</i><b>{{quantidade_cadastro.planocontas}}</b> Plano de contas
+                                    
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'financeiro:fluxodecaixaview' %}">
+                                    <i class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 15px ;">&#xE25B;</i> <b>{{quantidade_cadastro.fluxodecaixa}}</b> Fluxo de caixa
+                                    
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'financeiro:listalancamentoview' %}">
+                                    
+                                    <i class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 15px ;">add</i> <b>{{quantidade_cadastro.lancamentos}}</b> Lançamentos
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    <i class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 15px ;">attach_money</i> Entradas
+                                    
+                                </a>
+                                <ul class="ml-menu animated fadeIn">
+                                    <li>
+                                        <a href="{% url 'financeiro:listarecebimentosview' %}">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 15px ;">attach_money</i><b>{{quantidade_cadastro.recebimentos}}</b> Recebimentos
+                                            
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'financeiro:listacontareceberview' %}">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 15px ;">attach_money</i><b>{{quantidade_cadastro.contareceber}}</b> Contas a receber
+                                            
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    <i class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 15px ;">money_off</i>Saídas
+                                    
+                                </a>
+                                <ul class="ml-menu animated fadeIn">
+                                    <li>
+                                        <a href="{% url 'financeiro:listapagamentosview' %}">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 15px ;">money_off</i><b>{{quantidade_cadastro.pagamentos}}</b> Pagamentos
+                                            
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'financeiro:listacontapagarview' %}">
+                                            <i class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 15px ;">money_off</i><b>{{quantidade_cadastro.contapagar}}</b> Contas a pagar
+                                            
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">&#xE54E;</i>
+                            <span>Vendas</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="{% url 'vendas:listaorcamentovendaview' %}">
+                                    Orçamentos de venda
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'vendas:listapedidovendaview' %}">
+                                    Pedidos de venda
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'vendas:listacondicaopagamentoview' %}">
+                                    Condições de pagamento
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">&#xE8CC;</i>
+                            <span>Compras</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="{% url 'compras:listaorcamentocompraview' %}">
+                                    Orçamentos de Compra
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'compras:listapedidocompraview' %}">
+                                    Pedidos de Compra
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'vendas:listacondicaopagamentoview' %}">
+                                    Condições de pagamento
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">&#xE8B0;</i>
+                            <span>Fiscal</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    Nota Fiscal
+                                </a>
+                                <ul class="ml-menu">
+                                    <li>
+                                        <a href="{% url 'fiscal:listanotafiscalsaidaview' %}">
+                                            Notas Fiscais
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'fiscal:listanotafiscalentradaview' %}">
+                                            Notas de Fornecedores
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'fiscal:configuracaonotafiscal' %}">
+                                            Configuração NF-e
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{% url 'fiscal:listanaturezaoperacaoview' %}">
+                                    Natureza da operação
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'fiscal:listagrupofiscalview' %}">
+                                    Grupo fiscal
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    Comunicação SEFAZ
+                                </a>
+                                <ul class="ml-menu">
+                                    <li>
+                                        <a href="{% url 'fiscal:consultarcadastro' %}">
+                                            Consultar cadastro
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'fiscal:inutilizarnotas' %}">
+                                            Inutilizar notas
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'fiscal:consultarnota' %}">
+                                            Consultar nota
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'fiscal:baixarnota' %}">
+                                            Baixar nota
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'fiscal:manifestacaodestinatario' %}">
+                                            Manifestação do destinatário
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">&#xE1BD;</i>
+                            <span>Estoque</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="{% url 'estoque:consultaestoqueview' %}">
+                                    Consultar estoque
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'estoque:listalocalview' %}">
+                                    Locais de estoque
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    Movimentações de estoque
+                                </a>
+                                <ul class="ml-menu">
+                                    <li>
+                                        <a href="{% url 'estoque:listamovimentoestoqueview' %}">
+                                            Todas movimentações
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'estoque:listaentradasestoqueview' %}">
+                                            Entradas
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'estoque:listasaidasestoqueview' %}">
+                                            Saídas
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'estoque:listatransferenciasestoqueview' %}">
+                                            Transferências
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">&#xE85D;</i>
+                            <span>Cadastro</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="{% url 'cadastro:listaclientesview' %}">
+                                    Clientes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'cadastro:listafornecedoresview' %}">
+                                    Fornecedores
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'cadastro:listaprodutosview' %}">
+                                    Produtos
+                                </a>
+                            </li>
+                            <!--
+                            <li>
+                                <a href="javascript:void(0);">
+                                    Serviços
+                                </a>
+                            </li>
+                            -->
+                            <li>
+                                <a href="{% url 'cadastro:listaempresasview' %}">
+                                    Empresas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'cadastro:listatransportadorasview' %}">
+                                    Transportadoras
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    Outros
+                                </a>
+                                <ul class="ml-menu">
+                                    <li>
+                                        <a href="{% url 'cadastro:listacategoriasview' %}">
+                                            Categorias
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'cadastro:listaunidadesview' %}">
+                                            Unidades
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'cadastro:listamarcasview' %}">
+                                            Marcas
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+            <div class="legal">
+                <div class="copyright">
+                    &copy; 2024 <a href="{% url 'base:index' %}"><b style="color: #F44336(242 8% 38% / 0.794);">Despezzas</b></a>.
+                <div class="version">                    <b>Versão: </b> 0.1.0
+                </div>
+            </div>            <!-- #Footer -->
+        </aside>
+        <!-- #Barra lateral -->
+
+    </section>
+    {% endblock %}
+
+    {%block content%}
+    {%endblock%}
+
+    {% include 'base/modal.html' %}
+
+    <!-- Bootstrap Js -->
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+
+    <!-- Datatables Js -->
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+    <!-- Sige Js -->
+    <script src="{% static 'js/admin.js' %}"></script>
+
+    <style>
+        .copyright, .version {
+            color: #1e2b37;
+        }
+    </style>
+
+    {% if messages %}
+    {%for message in messages%}
+    {% if 'permission_warning' in message.tags %}
+    
+
+    <script type="text/javascript">
+        $.Admin.messages.msgAlerta("{{message}}");
+    </script>
+
+    {%endif%}
+    {%endfor%}
+    {%endif%}
+
+    {% block js %}
+    {% endblock %}
+
+</body>
+
+</html>
